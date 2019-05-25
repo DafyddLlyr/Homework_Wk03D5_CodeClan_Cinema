@@ -42,6 +42,18 @@ class Film
     return self.customers.count()
   end
 
+  def screenings
+    sql = "SELECT * FROM screenings WHERE film_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values)
+    all_screenings = result.map { |screening| Screening.new(screening) }
+  end
+
+  def most_popular_time
+    screenings = self.screenings.sort { |a, b| b.tickets_sold <=> a.tickets_sold }
+    return screenings[0].screening_time
+  end
+
   def self.all()
     sql = "SELECT * FROM films"
     result = SqlRunner.run(sql)

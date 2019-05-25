@@ -49,12 +49,17 @@ class Customer
     return self.tickets.count()
   end
 
-  def buy(film)
+  def buy(film, screening)
     return "Insufficient funds" if film.price > @funds
+    return "Sold out" if screening.tickets_sold == screening.capacity
+
     ticket = Ticket.new({"customer_id" => @id, "film_id" => film.id})
     ticket.save()
+
     @funds -= film.price
     self.update()
+    
+    screening.sell_ticket
   end
 
   def self.all()

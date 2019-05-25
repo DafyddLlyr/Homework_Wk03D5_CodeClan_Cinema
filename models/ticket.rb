@@ -1,6 +1,6 @@
 class Ticket
 
-  attr_accessor :film, :customer
+  attr_accessor :film_id, :customer_id
   attr_reader :id
 
   def initialize(options)
