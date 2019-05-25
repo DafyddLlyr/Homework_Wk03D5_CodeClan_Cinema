@@ -1,7 +1,7 @@
 class Customer
 
-  attr_accessor :name, :funds
-  attr_reader :id
+  attr_accessor :name
+  attr_reader :id, :funds
 
   def initialize(options)
     @id = options["id"].to_i if options["id"]
@@ -36,6 +36,25 @@ class Customer
     result = SqlRunner.run(sql, values)
     film_list = result.map { |film| Film.new(film) }
     return film_list.sort_by { |film| film.title }
+  end
+
+  def tickets
+    sql = "SELECT * FROM tickets WHERE customer_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values)
+    return result.map { |ticket| Ticket.new(ticket) }
+  end
+
+  def ticket_count
+    return self.tickets.count()
+  end
+
+  def buy(film)
+    return "Insufficient funds" if film.price > @funds
+    ticket = Ticket.new({"customer_id" => @id, "film_id" => film.id})
+    ticket.save()
+    @funds -= film.price
+    self.update()
   end
 
   def self.all()
