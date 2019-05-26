@@ -31,11 +31,11 @@ class Customer
     sql = "SELECT films.* FROM films
     INNER JOIN tickets
     ON tickets.film_id = films.id
-    WHERE customer_id = $1"
+    WHERE customer_id = $1
+    ORDER BY films.title"
     values = [@id]
     result = SqlRunner.run(sql, values)
-    film_list = result.map { |film| Film.new(film) }
-    return film_list.sort_by { |film| film.title }
+    return result.map { |film| Film.new(film) }
   end
 
   def tickets
