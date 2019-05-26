@@ -4,8 +4,10 @@
 
 Create a system that handles bookings for our newly built cinema!
 
+### Class Diagram
 ![class diagram](class_diagram.png)
 
+### Database Schema
 ![db_schema](db_schema.png)
 
 ### Your app should be able to:
