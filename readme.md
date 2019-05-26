@@ -7,9 +7,9 @@ Create a system that handles bookings for our newly built cinema!
 ![class diagram](https://github.com/DafyddLlyr/Homework_Wk03D5_CodeClan_Cinema/raw/master/class_diagram.png)
 
 ### Your app should be able to:
-  - [x]Create customers, films and tickets
-  - [x]CRUD actions (create, read, update, delete) customers, films and tickets.
-  - [x]Show which films a customer has booked to see, and see which customers are coming to see one film. At least one of these should return the data ordered by a property (customers or films ordered by name/title, for instance).
+  - [x] Create customers, films and tickets
+  - [x] CRUD actions (create, read, update, delete) customers, films and tickets.
+  - [x] Show which films a customer has booked to see, and see which customers are coming to see one film. At least one of these should return the data ordered by a property (customers or films ordered by name/title, for instance).
 
 ### Basic extensions:
   - [x]Buying tickets should decrease the funds of the customer by the price
