@@ -1,6 +1,6 @@
 class Screening
 
-  attr_accessor :screening_time, :tickets_sold
+  attr_accessor :screening_time
   attr_reader :id, :capacity, :film_id
 
   def initialize(options)
@@ -8,20 +8,19 @@ class Screening
     @film_id = options["film_id"].to_i
     @screening_time = Time.parse(options["screening_time"]).strftime("%k:%M")
     @capacity = options["capacity"]
-    @tickets_sold = options["tickets_sold"].to_i
   end
 
   def save()
-    sql = "INSERT INTO screenings(film_id, screening_time, capacity, tickets_sold)
-    VALUES ($1, $2, $3, $4) RETURNING id"
-    values = [@film_id, @screening_time, @capacity, 0]
+    sql = "INSERT INTO screenings(film_id, screening_time, capacity)
+    VALUES ($1, $2, $3) RETURNING id"
+    values = [@film_id, @screening_time, @capacity]
     @id = SqlRunner.run(sql, values)[0]["id"].to_i
   end
 
   def update()
-    sql = "UPDATE screenings SET (screening_time, capacity, tickets_sold) = ($1, $2, $3)
-    WHERE id = $4"
-    values = [@screening_time, @capacity, @tickets_sold, @id]
+    sql = "UPDATE screenings SET (screening_time, capacity) = ($1, $2)
+    WHERE id = $3"
+    values = [@screening_time, @capacity, @id]
     SqlRunner.run(sql, values)
   end
 
@@ -31,9 +30,14 @@ class Screening
     SqlRunner.run(sql, values)
   end
 
-  def sell_ticket()
-    @tickets_sold += 1
-    self.update()
+  def customers
+    sql = "SELECT customers.* FROM customers
+    INNER JOIN tickets
+    ON tickets.customer_id = customers.id
+    WHERE screening_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values)
+    return result.map { |customer| Customer.new(customer) }
   end
 
   def customer_count()

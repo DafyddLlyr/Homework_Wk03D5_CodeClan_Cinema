@@ -49,9 +49,25 @@ class Film
     all_screenings = result.map { |screening| Screening.new(screening) }
   end
 
+  def show_times
+    all_times =  self.screenings.map { |screening| screening.screening_time }
+    return all_times.sort()
+  end
+
   def most_popular_time
-    screenings = self.screenings.sort { |a, b| b.tickets_sold <=> a.tickets_sold }
-    return screenings[0].screening_time
+    sql = "SELECT screening_id
+    FROM tickets
+    WHERE film_id = $1
+    GROUP BY screening_id"
+    values = [@id]
+    result = SqlRunner.run(sql, values)[0]
+    most_pop_screening_id = result["screening_id"].to_i
+
+    sql = "SELECT * FROM screenings WHERE id = $1"
+    values = [most_pop_screening_id]
+    result = SqlRunner.run(sql, values)
+    most_pop = result.map { |screening| Screening.new(screening)}
+    return most_pop[0].screening_time
   end
 
   def self.all()
