@@ -30,7 +30,7 @@ class Screening
     SqlRunner.run(sql, values)
   end
 
-  def customers
+  def customers()
     sql = "SELECT customers.* FROM customers
     INNER JOIN tickets
     ON tickets.customer_id = customers.id

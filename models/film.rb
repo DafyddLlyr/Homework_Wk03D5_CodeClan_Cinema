@@ -31,30 +31,30 @@ class Film
     sql = "SELECT customers.* FROM customers
     INNER JOIN tickets
     ON tickets.customer_id = customers.id
-    WHERE film_id = $1"
+    WHERE film_id = $1
+    ORDER BY customer.name"
     values = [@id]
     result = SqlRunner.run(sql, values)
-    customer_list = result.map { |customer| Customer.new(customer) }
-    return customer_list.sort_by { |customer| customer.name }
+    return result.map { |customer| Customer.new(customer) }
   end
 
   def customer_count()
     return self.customers.count()
   end
 
-  def screenings
+  def screenings()
     sql = "SELECT * FROM screenings WHERE film_id = $1"
     values = [@id]
     result = SqlRunner.run(sql, values)
     all_screenings = result.map { |screening| Screening.new(screening) }
   end
 
-  def show_times
+  def show_times()
     all_times =  self.screenings.map { |screening| screening.screening_time }
     return all_times.sort()
   end
 
-  def most_popular_time
+  def most_popular_time()
     result = self.screenings.sort_by { |screening| screening.customer_count }.reverse
     return result[0].screening_time
   end
