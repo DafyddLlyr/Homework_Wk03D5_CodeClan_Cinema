@@ -36,13 +36,15 @@ screening_2.save
 
 screening_3 = Screening.new(
   "film_id" => film_1.id,
-  "capacity" => 20,
+  "capacity" => 40,
   "screening_time" => "23:45"
 )
 screening_3.save
 
 5.times { customer_1.buy(film_1, screening_1)}
 3.times { customer_2.buy(film_1, screening_3)}
+
+20.times { customer_1.buy(film_1, screening_3)}
 
 binding.pry
 nil

@@ -55,19 +55,8 @@ class Film
   end
 
   def most_popular_time
-    sql = "SELECT screening_id
-    FROM tickets
-    WHERE film_id = $1
-    GROUP BY screening_id"
-    values = [@id]
-    result = SqlRunner.run(sql, values)[0]
-    most_pop_screening_id = result["screening_id"].to_i
-
-    sql = "SELECT * FROM screenings WHERE id = $1"
-    values = [most_pop_screening_id]
-    result = SqlRunner.run(sql, values)
-    most_pop = result.map { |screening| Screening.new(screening)}
-    return most_pop[0].screening_time
+    result = self.screenings.sort_by { |screening| screening.customer_count }.reverse
+    return result[0].screening_time
   end
 
   def self.all()
