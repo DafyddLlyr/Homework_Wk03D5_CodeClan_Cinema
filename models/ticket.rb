@@ -1,6 +1,7 @@
 class Ticket
 
-  attr_reader :id, :film_id, :customer_id
+  attr_reader :id
+  attr_accessor :customer_id, :film_id, :screening_id
 
   def initialize(options)
     @id = options["id"].to_i if options["id"]
@@ -13,6 +14,12 @@ class Ticket
     sql = "INSERT INTO tickets (customer_id, film_id, screening_id) VALUES ($1, $2, $3) RETURNING id"
     values = [@customer_id, @film_id, @screening_id]
     @id = SqlRunner.run(sql, values)[0]["id"].to_i
+  end
+
+  def update()
+    sql = "UPDATE tickets SET (customer_id, film_id, screening_id) = ($1, $2, $3) WHERE id = $4"
+    values = [@customer_id, @film_id, @screening_id, @id]
+    SqlRunner.run(sql, values)
   end
 
   def delete()
