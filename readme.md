@@ -4,7 +4,9 @@
 
 Create a system that handles bookings for our newly built cinema!
 
-![class diagram](https://github.com/DafyddLlyr/Homework_Wk03D5_CodeClan_Cinema/raw/master/class_diagram.png)
+![class diagram](class_diagram.png)
+
+![db_schema](db_schema.png)
 
 ### Your app should be able to:
   - [x] Create customers, films and tickets
