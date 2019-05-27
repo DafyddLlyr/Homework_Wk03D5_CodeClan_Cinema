@@ -18,8 +18,11 @@ customer_2.save()
 film_1 = Film.new({"title" => "Casino Royale", "price" => 5})
 film_1.save()
 
-film_2 = Film.new({"title" => "Skyfall", "price" => 500})
+film_2 = Film.new({"title" => "Skyfall", "price" => 10})
 film_2.save()
+
+film_3 = Film.new({"title" => "Die Another Day", "price" => 10})
+film_3.save()
 
 screening_1 = Screening.new(
   "film_id" => film_1.id,
@@ -28,14 +31,14 @@ screening_1 = Screening.new(
 screening_1.save()
 
 screening_2 = Screening.new(
-  "film_id" => film_1.id,
+  "film_id" => film_2.id,
   "capacity" => 20,
   "screening_time" => "17:45"
 )
 screening_2.save
 
 screening_3 = Screening.new(
-  "film_id" => film_1.id,
+  "film_id" => film_3.id,
   "capacity" => 40,
   "screening_time" => "23:45"
 )
@@ -43,8 +46,11 @@ screening_3.save
 
 5.times { customer_1.buy(film_1, screening_1)}
 3.times { customer_2.buy(film_1, screening_3)}
+10.times { customer_1.buy(film_2, screening_3)}
 
-20.times { customer_1.buy(film_1, screening_3)}
+# customer_1.buy(film_1, screening_1)
+# customer_1.buy(film_2, screening_3)
+# customer_1.buy(film_3, screening_3)
 
 binding.pry
 nil
